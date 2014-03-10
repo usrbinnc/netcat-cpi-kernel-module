@@ -1,0 +1,12 @@
+netcat - Cycles Per Instruction - Kernel Module Edition - 2014
+netcat is Brandon Lucia, Andrew Olmstead, and David Balatero
+
+to build:
+'make'
+
+to use:
+$>sudo insmod netcat.ko
+$>dmesg
+$>sudo mknod /dev/netcat c (device number reported in dmesg) 0
+<put on headphones>
+$>cat /dev/netcat | ogg123 -
