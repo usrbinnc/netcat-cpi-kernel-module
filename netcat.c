@@ -23,6 +23,7 @@ static int Major;		/* Major number assigned to our device driver */
 static int Device_Open = 0;	
 static char *msg_Ptr;
 
+static unsigned int firstTime = 1;
 static unsigned int currentTrack = 0;
 
 static char *tracks[] = {netcat_cpi_trk1,
@@ -59,11 +60,11 @@ int init_module(void)
         Major = register_chrdev(0, DEVICE_NAME, &fops);
 
 	if (Major < 0) {
-	  printk(KERN_ALERT "Registering char device failed with %d\n", Major);
+	  printk(KERN_ALERT "[netcat]: Registering char device failed with %d\n", Major);
 	  return Major;
 	}
 
-	printk(KERN_INFO "netcat - Cycles Per Instruction - Kernel Module Edition - 2014\nnetcat is Brandon Lucia, Andrew Olmstead, and David Balatero\nRun 'mknod /dev/netcat c %d 0' to setup the device.\ncat to ogg123 to play.\n", Major);
+	printk(KERN_INFO "[netcat]: netcat - Cycles Per Instruction - Kernel Module Edition - 2014\n[netcat]: netcat is Brandon Lucia, Andrew Olmstead, and David Balatero\n[netcat]: Run 'sudo mknod /dev/netcat c %d 0' to setup the device.\n[netcat]: 'cat /dev/netcat | ogg123 -' to play.\n", Major);
 
 	return SUCCESS;
 }
@@ -101,6 +102,13 @@ static ssize_t device_read(struct file *filp,
 			   loff_t * offset)
 {
 	int bytes_read = 0;
+
+        if( firstTime == 1 ){
+
+	  printk(KERN_ALERT "[netcat]: Now playing track %d - %s\n",currentTrack + 1,tracknames[currentTrack]);
+          firstTime = 0;
+
+        }
 
 	if (msg_Ptr - tracks[currentTrack] >= tracklens[currentTrack]){
 
