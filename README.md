@@ -6,15 +6,14 @@ netcat is Brandon Lucia, Andrew Olmstead, and David Balatero
 Kernel Module Edition - 2014
 ----------------------------
 
-Welcome to one of the dumber album release formats ever created. We're glad that we can all lose 
-brain cells together, one at a time.
+Welcome to one of the more unnecessarily complicated album release formats ever created. 
 
 Hold up wait
 -------------
 In this repository, you (yes you!) will be able to compile your own kernel module, create a 
-`/dev/netcat` device, and pipe that bad boy into an audio player.
+`/dev/netcat` device and pipe its output into an audio player.
 
-This repository contains the album bytes in `.h` files, that came from `.ogg` files that were 
+This repository contains the album's track data as ASCII bytes in `.h` files, that came from `.ogg` files that were 
 encoded from `.wav` files that were created from `.mp3` files that were encoded from the mastered 
 `.wav` files which were generated from ProTools final mix `.wav` files that were created from 
 24-track analog tape.
@@ -48,10 +47,10 @@ dmesg
 You should see the following output from `dmesg`:
 
 ```
-[  430.894892] netcat - Cycles Per Instruction - Kernel Module Edition - 2014
-[  430.894892] netcat is Brandon Lucia, Andrew Olmstead, and David Balatero
-[  430.894892] Run 'mknod /dev/netcat c 249 0' to setup the device.
-[  430.894892] cat to ogg123 to play.
+[ 2606.528153] [netcat]: netcat - Cycles Per Instruction - Kernel Module Edition - 2014
+[ 2606.528153] [netcat]: netcat is Brandon Lucia, Andrew Olmstead, and David Balatero
+[ 2606.528153] [netcat]: Run 'sudo mknod /dev/netcat c 250 0' to setup the device.
+[ 2606.528153] [netcat]: 'cat /dev/netcat | ogg123 -' to play.
 ```
 
 Your `mknod` command will be slightly different, as the OS will assign you a different number every time. Run this command:
