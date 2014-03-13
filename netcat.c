@@ -2,12 +2,22 @@
 #include <linux/module.h>
 #include <linux/fs.h>
 #include <asm/uaccess.h>	
-#include "trk4.h"
-#include "trk5.h"
-#include "trk6.h"
-#include "trk1.h"
-#include "trk2.h"
-#include "trk3.h"
+
+// Brandon's compiler crashes unless we include them in
+// this order.
+//
+//   __                               __   
+// _/  |_  ____   ____ _____    _____/  |_ 
+// \   __\/ __ \ /    \\__  \ _/ ___\   __\
+//  |  | \  ___/|   |  \/ __ \\  \___|  |  
+//  |__|  \___  >___|  (____  /\___  >__|  
+//            \/     \/     \/     \/      
+#include <trk4.h>
+#include <trk5.h>
+#include <trk6.h>
+#include <trk1.h>
+#include <trk2.h>
+#include <trk3.h>
 
 int init_module(void);
 void cleanup_module(void);
