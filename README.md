@@ -2,6 +2,7 @@ netcat - Cycles Per Instruction
 ===============================
 
 netcat is Brandon Lucia, Andrew Olmstead, and David Balatero
+[http://netcat.bandcamp.com](http://netcat.bandcamp.com)
 
 Kernel Module Edition - 2014
 ----------------------------
