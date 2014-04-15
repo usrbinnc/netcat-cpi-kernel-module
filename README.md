@@ -4,14 +4,14 @@ netcat - Cycles Per Instruction
 netcat is Brandon Lucia, Andrew Olmstead, and David Balatero
 
 [http://netcat.bandcamp.com](http://netcat.bandcamp.com)
+[http://netcat.co](http://netcat.co)
+
 
 Kernel Module Edition - 2014
 ----------------------------
 
 Welcome to one of the more unnecessarily complicated album release formats ever created. 
 
-Hold up wait
--------------
 In this repository, you (yes you!) will be able to compile your own kernel module, create a 
 `/dev/netcat` device and pipe its output into an audio player.
 
