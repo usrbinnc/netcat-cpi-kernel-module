@@ -6,7 +6,10 @@ Released April 2014
 
 
 [http://netcat.co](http://netcat.co)
+
 [http://netcat.bandcamp.com](http://netcat.bandcamp.com)
+
+[http://tableandchairsmusic.com/artists/netcat](http://tableandchairsmusic.com/artists/netcat)
 
 
 Cycles Per Instruction - The Kernel Module Edition
@@ -21,6 +24,8 @@ This repository contains the album's track data in source files, that came from 
 encoded from `.wav` files that were created from `.mp3` files that were encoded from the mastered 
 `.wav` files which were generated from ProTools final mix `.wav` files that were created from 
 24-track analog tape.
+
+If complexity isn't your thing, you can go to our [webpage](http://netcat.co) and follow the links to a digital download or a cassette tape of our album.
 
 Running it
 ----------
