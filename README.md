@@ -1,21 +1,20 @@
-netcat - Cycles Per Instruction
+netcat - Cycles Per Instruction - 2014
+by Brandon Lucia, Andrew Olmstead, and David Balatero
 ===============================
 
-netcat is Brandon Lucia, Andrew Olmstead, and David Balatero
-
-[http://netcat.bandcamp.com](http://netcat.bandcamp.com)
 [http://netcat.co](http://netcat.co)
+[http://netcat.bandcamp.com](http://netcat.bandcamp.com)
 
 
-Kernel Module Edition - 2014
-----------------------------
+Cycles Per Instruction - The Kernel Module Edition
+--------------------------------------------------
 
-Welcome to one of the more unnecessarily complicated album release formats ever created. 
+Welcome to the most unnecessarily complicated netcat album release format yet. 
 
-In this repository, you (yes you!) will be able to compile your own kernel module, create a 
+In this repository, you will be able to compile your own kernel module, create a 
 `/dev/netcat` device and pipe its output into an audio player.
 
-This repository contains the album's track data as ASCII bytes in `.h` files, that came from `.ogg` files that were 
+This repository contains the album's track data in source files, that came from `.ogg` files that were 
 encoded from `.wav` files that were created from `.mp3` files that were encoded from the mastered 
 `.wav` files which were generated from ProTools final mix `.wav` files that were created from 
 24-track analog tape.
@@ -46,7 +45,7 @@ sudo insmod netcat.ko
 dmesg
 ```
 
-You should see the following output from `dmesg`:
+You should see output like the following from `dmesg`:
 
 ```
 [ 2606.528153] [netcat]: netcat - Cycles Per Instruction - Kernel Module Edition - 2014
@@ -67,7 +66,7 @@ Finally, put on some headphones, and run:
 cat /dev/netcat | ogg123 -
 ```
 
-Track changes will show up in `dmesg`:
+Track information will show up in the output of `dmesg`:
 
 ```
 [  612.411529] [netcat]: Now playing track 2 - The Internet is an Apt Motherfucker
