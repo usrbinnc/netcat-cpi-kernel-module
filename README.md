@@ -1,7 +1,7 @@
 ♫ netcat - Cycles Per Instruction
 ===============================
 
-by Brandon Lucia, Andrew Olmstead, and David Balatero
+by [Brandon Lucia](http://brandonlucia.com/music.html), Andrew Olmstead, and David Balatero
 
 Released April 2014
 
@@ -29,8 +29,8 @@ encoded from `.wav` files that were created from `.mp3` files that were encoded 
 
 If complexity isn't your thing, you can go to our [webpage](http://netcat.co) and follow the links to a digital download or a cassette tape of our album.
 
-Running it
-----------
+Building
+--------
 We've only tested this on Ubuntu Linux. Sure, it's real easy to grab another operating system ISO 
 and test it out, but after a day toiling in the bitmines, who has the energy?
 
@@ -54,6 +54,9 @@ make
 ```
 
 Building will take a long time.  Hang with it.  Building also requires several gigabytes of memory.  We're not totally sure why, but we think it is because because the compiler is making lots of copies of several large, static arrays that contain track data.
+
+Listening
+---------
 
 After you build, run you need to load the module and see if it is working, so you can run:
 
