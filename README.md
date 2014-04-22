@@ -1,4 +1,4 @@
-netcat - Cycles Per Instruction
+♫ netcat - Cycles Per Instruction
 ===============================
 
 by Brandon Lucia, Andrew Olmstead, and David Balatero
