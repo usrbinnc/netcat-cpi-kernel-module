@@ -2,14 +2,12 @@ netcat - Cycles Per Instruction
 ===============================
 
 by Brandon Lucia, Andrew Olmstead, and David Balatero
+
 Released April 2014
 
-
-[http://netcat.co](http://netcat.co)
-
-[http://netcat.bandcamp.com](http://netcat.bandcamp.com)
-
-[http://tableandchairsmusic.com/artists/netcat](http://tableandchairsmusic.com/artists/netcat)
+* [http://netcat.co](http://netcat.co)
+* [http://netcat.bandcamp.com](http://netcat.bandcamp.com)
+* [http://tableandchairsmusic.com/artists/netcat](http://tableandchairsmusic.com/artists/netcat)
 
 
 Cycles Per Instruction - The Kernel Module Edition
@@ -19,6 +17,10 @@ Welcome to the most unnecessarily complicated netcat album release format yet.
 
 In this repository, you will be able to compile your own kernel module, create a 
 `/dev/netcat` device and pipe its output into an audio player.
+
+```
+cat /dev/netcat | ogg123 -
+```
 
 This repository contains the album's track data in source files, that came from `.ogg` files that were 
 encoded from `.wav` files that were created from `.mp3` files that were encoded from the mastered 
