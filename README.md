@@ -35,7 +35,7 @@ and test it out, but after a day toiling in the bitmines, who has the energy?
 First, install some dependencies:
 
 ```
-sudo apt-get install build-essential vorbis-tools
+sudo apt-get install build-essential vorbis-tools linux-headers-$(uname -r)
 ```
 
 Check out the repo:
