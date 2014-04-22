@@ -1,6 +1,9 @@
-netcat - Cycles Per Instruction - 2014
-by Brandon Lucia, Andrew Olmstead, and David Balatero
+netcat - Cycles Per Instruction
 ===============================
+
+by Brandon Lucia, Andrew Olmstead, and David Balatero
+Released April 2014
+
 
 [http://netcat.co](http://netcat.co)
 [http://netcat.bandcamp.com](http://netcat.bandcamp.com)
