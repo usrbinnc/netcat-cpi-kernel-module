@@ -92,3 +92,4 @@ People insane enough to contribute (thanks!!)
 
 * @mark-bi added support for auto-creating our /dev/netcat device. Thanks, Mark!
 * @arfar pointed out that not everyone wants to clone public repos over SSH, and updated the clone instructions to https. Thanks!
+* @jmtd simplified the command to play audio by removing the extra instance of cat. Thanks!
