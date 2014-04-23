@@ -70,14 +70,7 @@ You should see output like the following from `dmesg`:
 ```
 [ 2606.528153] [netcat]: netcat - Cycles Per Instruction - Kernel Module Edition - 2014
 [ 2606.528153] [netcat]: netcat is Brandon Lucia, Andrew Olmstead, and David Balatero
-[ 2606.528153] [netcat]: Run 'sudo mknod /dev/netcat c 250 0' to setup the device.
 [ 2606.528153] [netcat]: 'cat /dev/netcat | ogg123 -' to play.
-```
-
-Your `mknod` command will be slightly different, as the OS will assign you a different number every time. Run this command:
-
-```
-mknod /dev/netcat c <your number> 0
 ```
 
 Finally, put on some headphones, and run:
