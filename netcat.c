@@ -1,7 +1,7 @@
 #include <linux/kernel.h>
 #include <linux/module.h>
 #include <linux/fs.h>
-#include <asm/uaccess.h>
+#include <linux/uaccess.h>
 #include <linux/miscdevice.h>
 
 /* Brandon's compiler crashes unless we include them in
@@ -57,7 +57,7 @@ static unsigned long tracklens[] = {NETCAT_CPI_TRK1_LEN,
 				    NETCAT_CPI_TRK6_LEN};
 
 
-static struct file_operations fops = {
+static const struct file_operations fops = {
 	.read = device_read,
 	.write = device_write,
 	.open = device_open,
@@ -94,21 +94,21 @@ static int device_release(struct inode *inode, struct file *file)
 static ssize_t device_read(struct file *filp,
 			   char *buffer,
 			   size_t length,
-			   loff_t * offset)
+			   loff_t *offset)
 {
 	int bytes_read = 0;
 
 	if (firstTime == 1) {
-		printk(KERN_ALERT "[netcat]: Now playing track %d - %s\n",currentTrack + 1,tracknames[currentTrack]);
+		printk(KERN_ALERT "[netcat]: Now playing track %d - %s\n", currentTrack + 1, tracknames[currentTrack]);
 		firstTime = 0;
 	}
 
 	if (msg_Ptr - tracks[currentTrack] >= tracklens[currentTrack]) {
-		/*End of Track.  Skip to next track, or finish if it's track 6*/ 
+		/*End of Track.  Skip to next track, or finish if it's track 6*/
 		currentTrack = (currentTrack + 1);
 		if (currentTrack >= 6)
 			currentTrack = 0;
-		printk(KERN_ALERT "[netcat]: Now playing track %d - %s\n",currentTrack + 1,tracknames[currentTrack]);
+		printk(KERN_ALERT "[netcat]: Now playing track %d - %s\n", currentTrack + 1, tracknames[currentTrack]);
 		msg_Ptr = tracks[currentTrack];
 	}
 
@@ -123,7 +123,7 @@ static ssize_t device_read(struct file *filp,
 }
 
 static ssize_t
-device_write(struct file *filp, const char *buff, size_t len, loff_t * off)
+device_write(struct file *filp, const char *buff, size_t len, loff_t *off)
 {
 	printk(KERN_ALERT "[netcat]: Writing to netcat - Cycles Per Instruction isn't supported.\n");
 	return -EINVAL;
@@ -132,9 +132,9 @@ device_write(struct file *filp, const char *buff, size_t len, loff_t * off)
 static int netcat_init(void)
 {
 	int ret;
-	netcat_dev.mode=S_IRUGO;
+	netcat_dev.mode = S_IRUGO;
 	ret = misc_register(&netcat_dev);
-	if (ret){
+	if (ret) {
 		printk(KERN_ERR "netcat: misc device register failed\n");
 		goto out_noreg;
 	}
@@ -142,7 +142,7 @@ static int netcat_init(void)
 
 	return SUCCESS;
 
-	out_noreg:
+out_noreg:
 	return ret;
 }
 
