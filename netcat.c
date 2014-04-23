@@ -64,11 +64,11 @@ static struct file_operations fops = {
 	.release = device_release
 };
 
-static struct miscdevice netcat_dev ={
-  MISC_DYNAMIC_MINOR,
-  DEVICE_NAME,
-  &fops,
-};
+static struct miscdevice netcat_dev = {
+	MISC_DYNAMIC_MINOR,
+	DEVICE_NAME,
+	&fops,
+	};
 
 int init_module(void)
 {
@@ -76,15 +76,15 @@ int init_module(void)
 	netcat_dev.mode=S_IRUGO;
 	ret = misc_register(&netcat_dev);
 	if (ret){
-	    printk(KERN_ERR "netcat: misc device register failed\n");
-	    goto out_noreg;
+		printk(KERN_ERR "netcat: misc device register failed\n");
+		goto out_noreg;
 	}
 	printk(KERN_INFO "[netcat]: netcat - Cycles Per Instruction - Kernel Module Edition - 2014\n[netcat]: netcat is Brandon Lucia, Andrew Olmstead, and David Balatero\n[netcat]: On the web at http://netcat.co\n[netcat]: 'cat /dev/netcat | ogg123 -' to play.\n");
 
 	return SUCCESS;
 
 	out_noreg:
-    return ret;
+	return ret;
 }
 
 void cleanup_module(void)
