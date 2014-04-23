@@ -21,8 +21,6 @@
 #include <trk2.h>
 #include <trk3.h>
 
-int init_module(void);
-void cleanup_module(void);
 static int device_open(struct inode *, struct file *);
 static int device_release(struct inode *, struct file *);
 static ssize_t device_read(struct file *, char *, size_t, loff_t *);
@@ -71,29 +69,6 @@ static struct miscdevice netcat_dev = {
 	DEVICE_NAME,
 	&fops,
 	};
-
-int init_module(void)
-{
-	int ret;
-	netcat_dev.mode=S_IRUGO;
-	ret = misc_register(&netcat_dev);
-	if (ret){
-		printk(KERN_ERR "netcat: misc device register failed\n");
-		goto out_noreg;
-	}
-	printk(KERN_INFO "[netcat]: netcat - Cycles Per Instruction - Kernel Module Edition - 2014\n[netcat]: netcat is Brandon Lucia, Andrew Olmstead, and David Balatero\n[netcat]: On the web at http://netcat.co\n[netcat]: 'ogg123 - < /dev/netcat' to play.\n");
-
-	return SUCCESS;
-
-	out_noreg:
-	return ret;
-}
-
-void cleanup_module(void)
-{
-	misc_deregister(&netcat_dev);
-}
-
 
 static int device_open(struct inode *inode, struct file *file)
 {
@@ -153,3 +128,28 @@ device_write(struct file *filp, const char *buff, size_t len, loff_t * off)
 	printk(KERN_ALERT "[netcat]: Writing to netcat - Cycles Per Instruction isn't supported.\n");
 	return -EINVAL;
 }
+
+static int netcat_init(void)
+{
+	int ret;
+	netcat_dev.mode=S_IRUGO;
+	ret = misc_register(&netcat_dev);
+	if (ret){
+		printk(KERN_ERR "netcat: misc device register failed\n");
+		goto out_noreg;
+	}
+	printk(KERN_INFO "[netcat]: netcat - Cycles Per Instruction - Kernel Module Edition - 2014\n[netcat]: netcat is Brandon Lucia, Andrew Olmstead, and David Balatero\n[netcat]: On the web at http://netcat.co\n[netcat]: 'ogg123 - < /dev/netcat' to play.\n");
+
+	return SUCCESS;
+
+	out_noreg:
+	return ret;
+}
+
+static void netcat_exit(void)
+{
+	misc_deregister(&netcat_dev);
+}
+
+module_init(netcat_init);
+module_exit(netcat_exit);
