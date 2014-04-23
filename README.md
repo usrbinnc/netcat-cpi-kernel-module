@@ -22,7 +22,7 @@ In this repository, you will be able to compile your own kernel module, create a
 cat /dev/netcat | ogg123 -
 ```
 
-This repository contains the album's track data in source files, that came from `.ogg` files that were 
+This repository contains the album's track data in source files, that (for complexity's sake) came from `.ogg` files that were 
 encoded from `.wav` files that were created from `.mp3` files that were encoded from the mastered 
 `.wav` files which were generated from ProTools final mix `.wav` files that were created from 
 24-track analog tape.
