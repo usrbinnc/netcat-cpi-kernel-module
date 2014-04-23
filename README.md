@@ -34,6 +34,10 @@ Building
 We've only tested this on Ubuntu Linux. Sure, it's real easy to grab another operating system ISO 
 and test it out, but after a day toiling in the bitmines, who has the energy?
 
+Other people report:
+
+* @NicolasCARPi says it works on Arch 64-bit / kernel 3.14.1-1-ARCH. You heard it here first!
+
 First, install some dependencies:
 
 ```
