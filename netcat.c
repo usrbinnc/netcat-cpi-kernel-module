@@ -79,7 +79,7 @@ int init_module(void)
 		printk(KERN_ERR "netcat: misc device register failed\n");
 		goto out_noreg;
 	}
-	printk(KERN_INFO "[netcat]: netcat - Cycles Per Instruction - Kernel Module Edition - 2014\n[netcat]: netcat is Brandon Lucia, Andrew Olmstead, and David Balatero\n[netcat]: On the web at http://netcat.co\n[netcat]: 'cat /dev/netcat | ogg123 -' to play.\n");
+	printk(KERN_INFO "[netcat]: netcat - Cycles Per Instruction - Kernel Module Edition - 2014\n[netcat]: netcat is Brandon Lucia, Andrew Olmstead, and David Balatero\n[netcat]: On the web at http://netcat.co\n[netcat]: 'ogg123 - < /dev/netcat' to play.\n");
 
 	return SUCCESS;
 
