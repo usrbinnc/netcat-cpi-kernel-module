@@ -1,3 +1,5 @@
+#define pr_fmt(fmt) "[" KBUILD_MODNAME "]: " fmt
+
 #include <linux/kernel.h>
 #include <linux/module.h>
 #include <linux/fs.h>
@@ -99,7 +101,8 @@ static ssize_t device_read(struct file *filp,
 	int bytes_read = 0;
 
 	if (firstTime == 1) {
-		printk(KERN_ALERT "[netcat]: Now playing track %d - %s\n", currentTrack + 1, tracknames[currentTrack]);
+		pr_info("Now playing track %d - %s\n",
+			currentTrack + 1, tracknames[currentTrack]);
 		firstTime = 0;
 	}
 
@@ -108,7 +111,8 @@ static ssize_t device_read(struct file *filp,
 		currentTrack = (currentTrack + 1);
 		if (currentTrack >= 6)
 			currentTrack = 0;
-		printk(KERN_ALERT "[netcat]: Now playing track %d - %s\n", currentTrack + 1, tracknames[currentTrack]);
+		pr_info("Now playing track %d - %s\n",
+			currentTrack + 1, tracknames[currentTrack]);
 		msg_Ptr = tracks[currentTrack];
 	}
 
@@ -125,7 +129,7 @@ static ssize_t device_read(struct file *filp,
 static ssize_t
 device_write(struct file *filp, const char *buff, size_t len, loff_t *off)
 {
-	printk(KERN_ALERT "[netcat]: Writing to netcat - Cycles Per Instruction isn't supported.\n");
+	pr_err("Writing to netcat - Cycles Per Instruction isn't supported.\n");
 	return -EINVAL;
 }
 
@@ -135,10 +139,13 @@ static int netcat_init(void)
 	netcat_dev.mode = S_IRUGO;
 	ret = misc_register(&netcat_dev);
 	if (ret) {
-		printk(KERN_ERR "netcat: misc device register failed\n");
+		pr_err("misc device register failed\n");
 		goto out_noreg;
 	}
-	printk(KERN_INFO "[netcat]: netcat - Cycles Per Instruction - Kernel Module Edition - 2014\n[netcat]: netcat is Brandon Lucia, Andrew Olmstead, and David Balatero\n[netcat]: On the web at http://netcat.co\n[netcat]: 'ogg123 - < /dev/netcat' to play.\n");
+	pr_info("netcat - Cycles Per Instruction - Kernel Module Edition - 2014\n");
+	pr_info("netcat is Brandon Lucia, Andrew Olmstead, and David Balatero\n");
+	pr_info("On the web at http://netcat.co\n");
+	pr_info("'ogg123 - < /dev/netcat' to play.\n");
 
 	return SUCCESS;
 
