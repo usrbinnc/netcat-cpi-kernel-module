@@ -1,17 +1,17 @@
 #include <linux/kernel.h>
 #include <linux/module.h>
 #include <linux/fs.h>
-#include <asm/uaccess.h>	
+#include <asm/uaccess.h>
 #include <linux/miscdevice.h>
 // Brandon's compiler crashes unless we include them in
 // this order.
 //
-//   __                               __   
-// _/  |_  ____   ____ _____    _____/  |_ 
+//   __                               __
+// _/  |_  ____   ____ _____    _____/  |_
 // \   __\/ __ \ /    \\__  \ _/ ___\   __\
-//  |  | \  ___/|   |  \/ __ \\  \___|  |  
-//  |__|  \___  >___|  (____  /\___  >__|  
-//            \/     \/     \/     \/      
+//  |  | \  ___/|   |  \/ __ \\  \___|  |
+//  |__|  \___  >___|  (____  /\___  >__|
+//            \/     \/     \/     \/
 #include <trk4.h>
 #include <trk5.h>
 #include <trk6.h>
@@ -29,32 +29,32 @@ static ssize_t device_write(struct file *, const char *, size_t, loff_t *);
 #define SUCCESS 0
 #define DEVICE_NAME "netcat"	/* Dev name as it appears in /proc/devices   */
 
-static int Device_Open = 0;	
+static int Device_Open = 0;
 static char *msg_Ptr;
 
 static unsigned int firstTime = 1;
 static unsigned int currentTrack = 0;
 
 static char *tracks[] = {netcat_cpi_trk1,
-                         netcat_cpi_trk2,
-                         netcat_cpi_trk3,
-                         netcat_cpi_trk4,
-                         netcat_cpi_trk5,
-                         netcat_cpi_trk6};
+			 netcat_cpi_trk2,
+			 netcat_cpi_trk3,
+			 netcat_cpi_trk4,
+			 netcat_cpi_trk5,
+			 netcat_cpi_trk6};
 
 static char *tracknames[] = {"Interrupt 0x7f",
-                         "The Internet is an Apt Motherfucker",
-                         "Interrupt 0x0d",
-                         "netcat",
-                         "Interrupt 0xbb",
-                         "Approximating the Circumference of the Earth"};
+			 "The Internet is an Apt Motherfucker",
+			 "Interrupt 0x0d",
+			 "netcat",
+			 "Interrupt 0xbb",
+			 "Approximating the Circumference of the Earth"};
 
 static unsigned long tracklens[] = {NETCAT_CPI_TRK1_LEN,
-                                    NETCAT_CPI_TRK2_LEN,
-                                    NETCAT_CPI_TRK3_LEN,
-                                    NETCAT_CPI_TRK4_LEN,
-                                    NETCAT_CPI_TRK5_LEN,
-                                    NETCAT_CPI_TRK6_LEN};
+				    NETCAT_CPI_TRK2_LEN,
+				    NETCAT_CPI_TRK3_LEN,
+				    NETCAT_CPI_TRK4_LEN,
+				    NETCAT_CPI_TRK5_LEN,
+				    NETCAT_CPI_TRK6_LEN};
 
 
 static struct file_operations fops = {
@@ -107,39 +107,35 @@ static int device_open(struct inode *inode, struct file *file)
 
 static int device_release(struct inode *inode, struct file *file)
 {
-	Device_Open--;		
+	Device_Open--;
 
 	module_put(THIS_MODULE);
 
 	return 0;
 }
 
-static ssize_t device_read(struct file *filp,	
-			   char *buffer,	
-			   size_t length,	
+static ssize_t device_read(struct file *filp,
+			   char *buffer,
+			   size_t length,
 			   loff_t * offset)
 {
 	int bytes_read = 0;
 
-        if( firstTime == 1 ){
+	if (firstTime == 1) {
+		printk(KERN_ALERT "[netcat]: Now playing track %d - %s\n",currentTrack + 1,tracknames[currentTrack]);
+		firstTime = 0;
+	}
 
-	  printk(KERN_ALERT "[netcat]: Now playing track %d - %s\n",currentTrack + 1,tracknames[currentTrack]);
-          firstTime = 0;
-
-        }
-
-	if (msg_Ptr - tracks[currentTrack] >= tracklens[currentTrack]){
-
-          /*End of Track.  Skip to next track, or finish if it's track 6*/ 
-          currentTrack = (currentTrack + 1);
-          if( currentTrack >= 6 ){ currentTrack = 0; }
-	  printk(KERN_ALERT "[netcat]: Now playing track %d - %s\n",currentTrack + 1,tracknames[currentTrack]);
-          msg_Ptr = tracks[currentTrack];
-
-        }
+	if (msg_Ptr - tracks[currentTrack] >= tracklens[currentTrack]) {
+		/*End of Track.  Skip to next track, or finish if it's track 6*/ 
+		currentTrack = (currentTrack + 1);
+		if (currentTrack >= 6)
+			currentTrack = 0;
+		printk(KERN_ALERT "[netcat]: Now playing track %d - %s\n",currentTrack + 1,tracknames[currentTrack]);
+		msg_Ptr = tracks[currentTrack];
+	}
 
 	while (length && msg_Ptr - tracks[currentTrack] < tracklens[currentTrack]) {
-
 		put_user(*(msg_Ptr++), buffer++);
 
 		length--;
