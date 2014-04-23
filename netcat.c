@@ -2,7 +2,7 @@
 #include <linux/module.h>
 #include <linux/fs.h>
 #include <asm/uaccess.h>	
-
+#include <linux/miscdevice.h>
 // Brandon's compiler crashes unless we include them in
 // this order.
 //
@@ -29,7 +29,6 @@ static ssize_t device_write(struct file *, const char *, size_t, loff_t *);
 #define SUCCESS 0
 #define DEVICE_NAME "netcat"	/* Dev name as it appears in /proc/devices   */
 
-static int Major;		/* Major number assigned to our device driver */
 static int Device_Open = 0;	
 static char *msg_Ptr;
 
@@ -65,23 +64,32 @@ static struct file_operations fops = {
 	.release = device_release
 };
 
+static struct miscdevice netcat_dev ={
+  MISC_DYNAMIC_MINOR,
+  DEVICE_NAME,
+  &fops,
+};
+
 int init_module(void)
 {
-        Major = register_chrdev(0, DEVICE_NAME, &fops);
-
-	if (Major < 0) {
-	  printk(KERN_ALERT "[netcat]: Registering char device failed with %d\n", Major);
-	  return Major;
+	int ret;
+	netcat_dev.mode=S_IRUGO;
+	ret = misc_register(&netcat_dev);
+	if (ret){
+	    printk(KERN_ERR "netcat: misc device register failed\n");
+	    goto out_noreg;
 	}
-
-	printk(KERN_INFO "[netcat]: netcat - Cycles Per Instruction - Kernel Module Edition - 2014\n[netcat]: netcat is Brandon Lucia, Andrew Olmstead, and David Balatero\n[netcat]: On the web at http://netcat.co\n[netcat]: Run 'sudo mknod /dev/netcat c %d 0' to setup the device.\n[netcat]: 'cat /dev/netcat | ogg123 -' to play.\n", Major);
+	printk(KERN_INFO "[netcat]: netcat - Cycles Per Instruction - Kernel Module Edition - 2014\n[netcat]: netcat is Brandon Lucia, Andrew Olmstead, and David Balatero\n[netcat]: On the web at http://netcat.co\n[netcat]: 'cat /dev/netcat | ogg123 -' to play.\n");
 
 	return SUCCESS;
+
+	out_noreg:
+    return ret;
 }
 
 void cleanup_module(void)
 {
-	unregister_chrdev(Major, DEVICE_NAME);
+	misc_deregister(&netcat_dev);
 }
 
 
