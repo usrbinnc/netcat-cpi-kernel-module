@@ -3,15 +3,17 @@
 #include <linux/fs.h>
 #include <asm/uaccess.h>
 #include <linux/miscdevice.h>
-// Brandon's compiler crashes unless we include them in
-// this order.
-//
-//   __                               __
-// _/  |_  ____   ____ _____    _____/  |_
-// \   __\/ __ \ /    \\__  \ _/ ___\   __\
-//  |  | \  ___/|   |  \/ __ \\  \___|  |
-//  |__|  \___  >___|  (____  /\___  >__|
-//            \/     \/     \/     \/
+
+/* Brandon's compiler crashes unless we include them in
+ * this order.
+ *
+ *   __                               __
+ * _/  |_  ____   ____ _____    _____/  |_
+ * \   __\/ __ \ /    \\__  \ _/ ___\   __\
+ *  |  | \  ___/|   |  \/ __ \\  \___|  |
+ *  |__|  \___  >___|  (____  /\___  >__|
+ *            \/     \/     \/     \/
+ */
 #include <trk4.h>
 #include <trk5.h>
 #include <trk6.h>
@@ -99,7 +101,7 @@ static int device_open(struct inode *inode, struct file *file)
 		return -EBUSY;
 
 	Device_Open++;
-	msg_Ptr = tracks[0];//track 1
+	msg_Ptr = tracks[0];	/* track 1 */
 	try_module_get(THIS_MODULE);
 
 	return SUCCESS;
