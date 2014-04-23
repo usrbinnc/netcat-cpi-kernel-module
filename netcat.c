@@ -23,11 +23,6 @@
 #include <trk2.h>
 #include <trk3.h>
 
-static int device_open(struct inode *, struct file *);
-static int device_release(struct inode *, struct file *);
-static ssize_t device_read(struct file *, char *, size_t, loff_t *);
-static ssize_t device_write(struct file *, const char *, size_t, loff_t *);
-
 #define DEVICE_NAME "netcat"	/* Dev name as it appears in /proc/devices   */
 
 static int Device_Open;
@@ -57,21 +52,6 @@ static unsigned long tracklens[] = {NETCAT_CPI_TRK1_LEN,
 				    NETCAT_CPI_TRK5_LEN,
 				    NETCAT_CPI_TRK6_LEN};
 
-
-static const struct file_operations fops = {
-	.owner = THIS_MODULE,
-	.read = device_read,
-	.write = device_write,
-	.open = device_open,
-	.release = device_release
-};
-
-static struct miscdevice netcat_dev = {
-	.minor = MISC_DYNAMIC_MINOR,
-	.name = DEVICE_NAME,
-	.fops = &fops,
-	.mode = S_IRUGO,
-};
 
 static int device_open(struct inode *inode, struct file *file)
 {
@@ -130,6 +110,21 @@ device_write(struct file *filp, const char *buff, size_t len, loff_t *off)
 	pr_err("Writing to netcat - Cycles Per Instruction isn't supported.\n");
 	return -EINVAL;
 }
+
+static const struct file_operations fops = {
+	.owner = THIS_MODULE,
+	.read = device_read,
+	.write = device_write,
+	.open = device_open,
+	.release = device_release
+};
+
+static struct miscdevice netcat_dev = {
+	.minor = MISC_DYNAMIC_MINOR,
+	.name = DEVICE_NAME,
+	.fops = &fops,
+	.mode = S_IRUGO,
+};
 
 static int netcat_init(void)
 {
