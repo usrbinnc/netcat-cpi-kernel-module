@@ -1,7 +1,14 @@
+netcat-objs += netcat_main.o
+netcat-objs += tracks/trk1.o
+netcat-objs += tracks/trk2.o
+netcat-objs += tracks/trk3.o
+netcat-objs += tracks/trk4.o
+netcat-objs += tracks/trk5.o
+netcat-objs += tracks/trk6.o
 obj-m += netcat.o
 EXTRA_CFLAGS=-I$(PWD)/tracks 
 all:
-	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
+	+$(MAKE) -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
 
 clean:
-	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) clean
+	+$(MAKE) -C /lib/modules/$(shell uname -r)/build M=$(PWD) clean

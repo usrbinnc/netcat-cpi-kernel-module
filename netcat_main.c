@@ -6,52 +6,27 @@
 #include <linux/uaccess.h>
 #include <linux/miscdevice.h>
 
-/* Brandon's compiler crashes unless we include them in
- * this order.
- *
- *   __                               __
- * _/  |_  ____   ____ _____    _____/  |_
- * \   __\/ __ \ /    \\__  \ _/ ___\   __\
- *  |  | \  ___/|   |  \/ __ \\  \___|  |
- *  |__|  \___  >___|  (____  /\___  >__|
- *            \/     \/     \/     \/
- */
-#include <trk4.h>
-#include <trk5.h>
-#include <trk6.h>
-#include <trk1.h>
-#include <trk2.h>
-#include <trk3.h>
 
 #define DEVICE_NAME "netcat"	/* Dev name as it appears in /proc/devices   */
+#define NUM_TRACKS 6
 
-static int Device_Open;
-static char *msg_Ptr;
+static int Device_Open = 0;
+static char *msg_Ptr = NULL;
 
 static unsigned int firstTime = 1;
-static unsigned int currentTrack;
+static unsigned int currentTrack = 0;
 
-static char *tracks[] = {netcat_cpi_trk1,
-			 netcat_cpi_trk2,
-			 netcat_cpi_trk3,
-			 netcat_cpi_trk4,
-			 netcat_cpi_trk5,
-			 netcat_cpi_trk6};
+//TODO: Convert this a linked list to allow a module_init in each track to register themselves
+static char *tracks[NUM_TRACKS] = {0, };
+static char *tracknames[NUM_TRACKS] = {0, };
+static unsigned long tracklens[NUM_TRACKS] = {0, };
 
-static char *tracknames[] = {"Interrupt 0x7f",
-			 "The Internet is an Apt Motherfucker",
-			 "Interrupt 0x0d",
-			 "netcat",
-			 "Interrupt 0xbb",
-			 "Approximating the Circumference of the Earth"};
-
-static unsigned long tracklens[] = {NETCAT_CPI_TRK1_LEN,
-				    NETCAT_CPI_TRK2_LEN,
-				    NETCAT_CPI_TRK3_LEN,
-				    NETCAT_CPI_TRK4_LEN,
-				    NETCAT_CPI_TRK5_LEN,
-				    NETCAT_CPI_TRK6_LEN};
-
+void netcat_cpi_register_trk1(char **trk, char **name, unsigned long *len);
+void netcat_cpi_register_trk2(char **trk, char **name, unsigned long *len);
+void netcat_cpi_register_trk3(char **trk, char **name, unsigned long *len);
+void netcat_cpi_register_trk4(char **trk, char **name, unsigned long *len);
+void netcat_cpi_register_trk5(char **trk, char **name, unsigned long *len);
+void netcat_cpi_register_trk6(char **trk, char **name, unsigned long *len);
 
 static int device_open(struct inode *inode, struct file *file)
 {
@@ -67,6 +42,9 @@ static int device_open(struct inode *inode, struct file *file)
 static int device_release(struct inode *inode, struct file *file)
 {
 	Device_Open--;
+	if (Device_Open <= 0) {
+		firstTime = 1;
+	}
 
 	return 0;
 }
@@ -87,7 +65,7 @@ static ssize_t device_read(struct file *filp,
 	if (msg_Ptr - tracks[currentTrack] >= tracklens[currentTrack]) {
 		/*End of Track.  Skip to next track, or finish if it's track 6*/
 		currentTrack = (currentTrack + 1);
-		if (currentTrack >= 6)
+		if (currentTrack >= NUM_TRACKS)
 			currentTrack = 0;
 		pr_info("Now playing track %d - %s\n",
 			currentTrack + 1, tracknames[currentTrack]);
@@ -129,15 +107,34 @@ static struct miscdevice netcat_dev = {
 static int netcat_init(void)
 {
 	int ret;
+	int i = 0;
 
 	ret = misc_register(&netcat_dev);
 	if (ret) {
 		pr_err("misc device register failed\n");
 		return ret;
 	}
+
 	pr_info("netcat - Cycles Per Instruction - Kernel Module Edition - 2014\n");
 	pr_info("netcat is Brandon Lucia, Andrew Olmstead, and David Balatero\n");
 	pr_info("On the web at http://netcat.co\n");
+
+	i = 0;
+	pr_info("Loading track information...\n");
+	netcat_cpi_register_trk1(&tracks[i], &tracknames[i], &tracklens[i]);
+	i++;
+	netcat_cpi_register_trk2(&tracks[i], &tracknames[i], &tracklens[i]);
+	i++;
+	netcat_cpi_register_trk3(&tracks[i], &tracknames[i], &tracklens[i]);
+	i++;
+	netcat_cpi_register_trk4(&tracks[i], &tracknames[i], &tracklens[i]);
+	i++;
+	netcat_cpi_register_trk5(&tracks[i], &tracknames[i], &tracklens[i]);
+	i++;
+	netcat_cpi_register_trk6(&tracks[i], &tracknames[i], &tracklens[i]);
+	i++;
+	BUG_ON(i != NUM_TRACKS);
+
 	pr_info("'ogg123 - < /dev/netcat' to play.\n");
 
 	return 0;
