@@ -67,10 +67,11 @@ static const struct file_operations fops = {
 };
 
 static struct miscdevice netcat_dev = {
-	MISC_DYNAMIC_MINOR,
-	DEVICE_NAME,
-	&fops,
-	};
+	.minor = MISC_DYNAMIC_MINOR,
+	.name = DEVICE_NAME,
+	.fops = &fops,
+	.mode = S_IRUGO,
+};
 
 static int device_open(struct inode *inode, struct file *file)
 {
@@ -136,7 +137,7 @@ device_write(struct file *filp, const char *buff, size_t len, loff_t *off)
 static int netcat_init(void)
 {
 	int ret;
-	netcat_dev.mode = S_IRUGO;
+
 	ret = misc_register(&netcat_dev);
 	if (ret) {
 		pr_err("misc device register failed\n");
