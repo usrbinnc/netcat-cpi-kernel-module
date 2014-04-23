@@ -5,6 +5,7 @@
 #include <linux/fs.h>
 #include <linux/uaccess.h>
 #include <linux/miscdevice.h>
+#include <linux/slab.h>
 
 /* Brandon's compiler crashes unless we include them in
  * this order.
@@ -25,11 +26,11 @@
 
 #define DEVICE_NAME "netcat"	/* Dev name as it appears in /proc/devices   */
 
-static int Device_Open;
-static char *msg_Ptr;
-
-static unsigned int firstTime = 1;
-static unsigned int currentTrack;
+struct netcat {
+	char	*msg;
+	bool	first_time;
+	int	current_track;
+};
 
 static char *tracks[] = {netcat_cpi_trk1,
 			 netcat_cpi_trk2,
@@ -55,47 +56,57 @@ static unsigned long tracklens[] = {NETCAT_CPI_TRK1_LEN,
 
 static int device_open(struct inode *inode, struct file *file)
 {
-	if (Device_Open)
-		return -EBUSY;
+	struct netcat *netcat;
 
-	Device_Open++;
-	msg_Ptr = tracks[0];	/* track 1 */
+	netcat = kzalloc(sizeof(*netcat), GFP_KERNEL);
+	if (!netcat)
+		return -ENOMEM;
 
+	netcat->first_time = true;
+	netcat->msg = tracks[0];	/* track 1 */
+	file->private_data = netcat;
 	return 0;
 }
 
 static int device_release(struct inode *inode, struct file *file)
 {
-	Device_Open--;
+	struct netcat *netcat = file->private_data;
 
+	kfree(netcat);
 	return 0;
 }
 
-static ssize_t device_read(struct file *filp,
+static ssize_t device_read(struct file *file,
 			   char *buffer,
 			   size_t length,
 			   loff_t *offset)
 {
+	struct netcat *netcat = file->private_data;
+	int current_track = netcat->current_track;
+
 	int bytes_read = 0;
 
-	if (firstTime == 1) {
+	if (netcat->first_time == true) {
 		pr_info("Now playing track %d - %s\n",
-			currentTrack + 1, tracknames[currentTrack]);
-		firstTime = 0;
+			current_track + 1, tracknames[current_track]);
+		netcat->first_time = false;
 	}
 
-	if (msg_Ptr - tracks[currentTrack] >= tracklens[currentTrack]) {
-		/*End of Track.  Skip to next track, or finish if it's track 6*/
-		currentTrack = (currentTrack + 1);
-		if (currentTrack >= 6)
-			currentTrack = 0;
+	if (netcat->msg - tracks[current_track] >= tracklens[current_track]) {
+		/* End of Track.  Skip to next track, or finish if it's track 6 */
+		current_track++;
+		if (current_track >= 6)
+			current_track = 0;
 		pr_info("Now playing track %d - %s\n",
-			currentTrack + 1, tracknames[currentTrack]);
-		msg_Ptr = tracks[currentTrack];
+			current_track + 1, tracknames[current_track]);
+		netcat->msg = tracks[current_track];
+		netcat->current_track = current_track;
 	}
 
-	while (length && msg_Ptr - tracks[currentTrack] < tracklens[currentTrack]) {
-		put_user(*(msg_Ptr++), buffer++);
+	while (length &&
+		(netcat->msg - tracks[current_track]) <
+		 tracklens[current_track]) {
+		put_user(*(netcat->msg++), buffer++);
 
 		length--;
 		bytes_read++;
