@@ -43,7 +43,7 @@ sudo apt-get install build-essential vorbis-tools linux-headers-$(uname -r)
 Check out the repo:
 
 ```
-git clone git@github.com:usrbinnc/netcat-cpi-kernel-module.git
+git clone https://github.com/usrbinnc/netcat-cpi-kernel-module.git
 cd netcat-cpi-kernel-module
 ```
 
