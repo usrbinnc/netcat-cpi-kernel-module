@@ -60,6 +60,7 @@ static unsigned long tracklens[] = {NETCAT_CPI_TRK1_LEN,
 
 
 static const struct file_operations fops = {
+	.owner = THIS_MODULE,
 	.read = device_read,
 	.write = device_write,
 	.open = device_open,
@@ -80,7 +81,6 @@ static int device_open(struct inode *inode, struct file *file)
 
 	Device_Open++;
 	msg_Ptr = tracks[0];	/* track 1 */
-	try_module_get(THIS_MODULE);
 
 	return SUCCESS;
 }
@@ -88,8 +88,6 @@ static int device_open(struct inode *inode, struct file *file)
 static int device_release(struct inode *inode, struct file *file)
 {
 	Device_Open--;
-
-	module_put(THIS_MODULE);
 
 	return 0;
 }
