@@ -74,7 +74,7 @@ int init_module(void)
 	  return Major;
 	}
 
-	printk(KERN_INFO "[netcat]: netcat - Cycles Per Instruction - Kernel Module Edition - 2014\n[netcat]: netcat is Brandon Lucia, Andrew Olmstead, and David Balatero\n[netcat]: On the web at http://netcat.co\n[netcat]: Run 'sudo mknod /dev/netcat c %d 0' to setup the device.\n[netcat]: 'cat /dev/netcat | ogg123 -' to play.\n", Major);
+	printk(KERN_INFO "[netcat]: netcat - Cycles Per Instruction - Kernel Module Edition - 2014\n[netcat]: netcat is Brandon Lucia, Andrew Olmstead, and David Balatero\n[netcat]: On the web at http://netcat.co\n[netcat]: Run 'sudo mknod /dev/netcat c %d 0' to setup the device.\n[netcat]: 'ogg123 - </dev/netcat' to play.\n", Major);
 
 	return SUCCESS;
 }
