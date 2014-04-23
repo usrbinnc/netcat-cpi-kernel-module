@@ -25,11 +25,11 @@
 
 #define DEVICE_NAME "netcat"	/* Dev name as it appears in /proc/devices   */
 
-static int Device_Open;
-static char *msg_Ptr;
+static int Device_Open = 0;
+static char *msg_Ptr = NULL;
 
 static unsigned int firstTime = 1;
-static unsigned int currentTrack;
+static unsigned int currentTrack = 0;
 
 static char *tracks[] = {netcat_cpi_trk1,
 			 netcat_cpi_trk2,
