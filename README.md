@@ -16,10 +16,10 @@ Cycles Per Instruction - The Kernel Module Edition
 Welcome to the most unnecessarily complicated netcat album release format yet. 
 
 In this repository, you will be able to compile your own kernel module, create a 
-`/dev/netcat` device and pipe its output into an audio player.
+`/dev/netcat` device and redirect its output into an audio player.
 
 ```
-cat /dev/netcat | ogg123 -
+ogg123 - < /dev/netcat
 ```
 
 This repository contains the album's track data in source files, that (for complexity's sake) came from `.ogg` files that were 
@@ -70,13 +70,13 @@ You should see output like the following from `dmesg`:
 ```
 [ 2606.528153] [netcat]: netcat - Cycles Per Instruction - Kernel Module Edition - 2014
 [ 2606.528153] [netcat]: netcat is Brandon Lucia, Andrew Olmstead, and David Balatero
-[ 2606.528153] [netcat]: 'cat /dev/netcat | ogg123 -' to play.
+[ 2606.528153] [netcat]: 'ogg123 - < /dev/netcat' to play.
 ```
 
 Finally, put on some headphones, and run:
 
 ```
-cat /dev/netcat | ogg123 -
+ogg123 - < /dev/netcat 
 ```
 
 Track information will show up in the output of `dmesg`:
