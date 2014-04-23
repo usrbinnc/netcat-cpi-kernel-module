@@ -28,7 +28,6 @@ static int device_release(struct inode *, struct file *);
 static ssize_t device_read(struct file *, char *, size_t, loff_t *);
 static ssize_t device_write(struct file *, const char *, size_t, loff_t *);
 
-#define SUCCESS 0
 #define DEVICE_NAME "netcat"	/* Dev name as it appears in /proc/devices   */
 
 static int Device_Open;
@@ -82,7 +81,7 @@ static int device_open(struct inode *inode, struct file *file)
 	Device_Open++;
 	msg_Ptr = tracks[0];	/* track 1 */
 
-	return SUCCESS;
+	return 0;
 }
 
 static int device_release(struct inode *inode, struct file *file)
@@ -139,17 +138,14 @@ static int netcat_init(void)
 	ret = misc_register(&netcat_dev);
 	if (ret) {
 		pr_err("misc device register failed\n");
-		goto out_noreg;
+		return ret;
 	}
 	pr_info("netcat - Cycles Per Instruction - Kernel Module Edition - 2014\n");
 	pr_info("netcat is Brandon Lucia, Andrew Olmstead, and David Balatero\n");
 	pr_info("On the web at http://netcat.co\n");
 	pr_info("'ogg123 - < /dev/netcat' to play.\n");
 
-	return SUCCESS;
-
-out_noreg:
-	return ret;
+	return 0;
 }
 
 static void netcat_exit(void)
