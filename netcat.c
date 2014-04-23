@@ -31,11 +31,11 @@ static ssize_t device_write(struct file *, const char *, size_t, loff_t *);
 #define SUCCESS 0
 #define DEVICE_NAME "netcat"	/* Dev name as it appears in /proc/devices   */
 
-static int Device_Open = 0;
+static int Device_Open;
 static char *msg_Ptr;
 
 static unsigned int firstTime = 1;
-static unsigned int currentTrack = 0;
+static unsigned int currentTrack;
 
 static char *tracks[] = {netcat_cpi_trk1,
 			 netcat_cpi_trk2,
