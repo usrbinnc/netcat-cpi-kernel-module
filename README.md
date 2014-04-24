@@ -38,6 +38,7 @@ Other people report:
 
 * @NicolasCARPi says it works on Arch 64-bit / kernel 3.14.1-1-ARCH. @diogoff shows you [how to do it](https://github.com/usrbinnc/netcat-cpi-kernel-module/wiki/Arch-Linux-how-to)
 * Intrepid explorer @jfilip [feels good about his 64-bit Fedora 20 install](https://gist.github.com/jfilip/408ee178a4379bf06c45)
+* @silviuvulcan Reports that we're up and running on slackware64-current
 
 First, install some dependencies:
 
@@ -99,3 +100,4 @@ People insane enough to contribute (thanks!!)
 * @arfar pointed out that not everyone wants to clone public repos over SSH, and updated the clone instructions to https. Thanks!
 * @jmtd simplified the command to play audio by removing the extra instance of cat. Thanks!
 * @gregkh for making our module coherent with standard Linux style and cleaning up some other loose ends.
+* @silviuvulcan for testing with vlc and finding that we run and build on slackware64-current. Thanks!
