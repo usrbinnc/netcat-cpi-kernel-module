@@ -39,7 +39,7 @@ Other people report:
 * @NicolasCARPi says it works on Arch 64-bit / kernel 3.14.1-1-ARCH. @diogoff shows you [how to do it](https://github.com/usrbinnc/netcat-cpi-kernel-module/wiki/Arch-Linux-how-to)
 * Intrepid explorer @jfilip [feels good about his 64-bit Fedora 20 install](https://gist.github.com/jfilip/408ee178a4379bf06c45)
 * @silviuvulcan Reports that we're up and running on slackware64-current
-* @alinefr did make a [howto](https://github.com/usrbinnc/netcat-cpi-kernel-module/wiki/Gentoo-Linux-HOWTO) explaining how she is enjoying netcat in her Gentoo Linux.
+* @alinefr did make a [howto](https://github.com/usrbinnc/netcat-cpi-kernel-module/wiki/Gentoo-Linux-HOWTO) explaining how she is enjoying netcat in her Gentoo Linux. She also [explained how](https://github.com/usrbinnc/netcat-cpi-kernel-module/wiki/Simple-http-mp3-streaming) whe did a http streaming from /dev/netcat to listen from [MPD](http://www.musicpd.org) and possibily from any open source audio player.
 * @pah got it running after increasing the Vmalloc limits to `vmalloc=192M` on a 32-bit i686 Debian machine (3.13-1-686-pae).
 
 First, install some dependencies:
