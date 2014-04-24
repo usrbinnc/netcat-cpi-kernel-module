@@ -7,22 +7,6 @@
 #include <linux/miscdevice.h>
 #include <linux/slab.h>
 
-/* Brandon's compiler crashes unless we include them in
- * this order.
- *
- *   __                               __
- * _/  |_  ____   ____ _____    _____/  |_
- * \   __\/ __ \ /    \\__  \ _/ ___\   __\
- *  |  | \  ___/|   |  \/ __ \\  \___|  |
- *  |__|  \___  >___|  (____  /\___  >__|
- *            \/     \/     \/     \/
- */
-#include "tracks/trk4.c"
-#include "tracks/trk5.c"
-#include "tracks/trk6.c"
-#include "tracks/trk1.c"
-#include "tracks/trk2.c"
-#include "tracks/trk3.c"
 
 #define DEVICE_NAME "netcat"	/* Dev name as it appears in /proc/devices   */
 
@@ -31,6 +15,20 @@ struct netcat {
 	bool	first_time;
 	int	current_track;
 };
+
+extern char netcat_cpi_trk1[];
+extern char netcat_cpi_trk2[];
+extern char netcat_cpi_trk3[];
+extern char netcat_cpi_trk4[];
+extern char netcat_cpi_trk5[];
+extern char netcat_cpi_trk6[];
+
+extern unsigned long netcat_cpi_trk1_len;
+extern unsigned long netcat_cpi_trk2_len;
+extern unsigned long netcat_cpi_trk3_len;
+extern unsigned long netcat_cpi_trk4_len;
+extern unsigned long netcat_cpi_trk5_len;
+extern unsigned long netcat_cpi_trk6_len;
 
 static char *tracks[] = {netcat_cpi_trk1,
 			 netcat_cpi_trk2,
@@ -46,12 +44,12 @@ static char *tracknames[] = {"Interrupt 0x7f",
 			 "Interrupt 0xbb",
 			 "Approximating the Circumference of the Earth"};
 
-static unsigned long tracklens[] = {NETCAT_CPI_TRK1_LEN,
-				    NETCAT_CPI_TRK2_LEN,
-				    NETCAT_CPI_TRK3_LEN,
-				    NETCAT_CPI_TRK4_LEN,
-				    NETCAT_CPI_TRK5_LEN,
-				    NETCAT_CPI_TRK6_LEN};
+static unsigned long *tracklens[] = {&netcat_cpi_trk1_len,
+				     &netcat_cpi_trk2_len,
+				     &netcat_cpi_trk3_len,
+				     &netcat_cpi_trk4_len,
+				     &netcat_cpi_trk5_len,
+				     &netcat_cpi_trk6_len};
 
 
 static int device_open(struct inode *inode, struct file *file)
@@ -92,7 +90,7 @@ static ssize_t device_read(struct file *file,
 		netcat->first_time = false;
 	}
 
-	if (netcat->msg - tracks[current_track] >= tracklens[current_track]) {
+	if (netcat->msg - tracks[current_track] >= *tracklens[current_track]) {
 		/* End of Track.  Skip to next track, or finish if it's track 6 */
 		current_track++;
 		if (current_track >= 6)
@@ -105,7 +103,7 @@ static ssize_t device_read(struct file *file,
 
 	while (length &&
 		(netcat->msg - tracks[current_track]) <
-		 tracklens[current_track]) {
+		 *tracklens[current_track]) {
 		put_user(*(netcat->msg++), buffer++);
 
 		length--;
