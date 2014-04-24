@@ -7,9 +7,7 @@
 #include <linux/miscdevice.h>
 #include <linux/slab.h>
 
-/* Brandon's compiler crashes unless we include them in
- * this order.
- *
+ /*
  *   __                               __
  * _/  |_  ____   ____ _____    _____/  |_
  * \   __\/ __ \ /    \\__  \ _/ ___\   __\
@@ -17,12 +15,6 @@
  *  |__|  \___  >___|  (____  /\___  >__|
  *            \/     \/     \/     \/
  */
-#include "tracks/trk4.h"
-#include "tracks/trk5.h"
-#include "tracks/trk6.h"
-#include "tracks/trk1.h"
-#include "tracks/trk2.h"
-#include "tracks/trk3.h"
 
 #define DEVICE_NAME "netcat"	/* Dev name as it appears in /proc/devices   */
 
@@ -32,12 +24,19 @@ struct netcat {
 	int	current_track;
 };
 
-static char *tracks[] = {netcat_cpi_trk1,
-			 netcat_cpi_trk2,
-			 netcat_cpi_trk3,
-			 netcat_cpi_trk4,
-			 netcat_cpi_trk5,
-			 netcat_cpi_trk6};
+extern char _binary_trk1_ogg_start;
+extern char _binary_trk2_ogg_start;
+extern char _binary_trk3_ogg_start;
+extern char _binary_trk4_ogg_start;
+extern char _binary_trk5_ogg_start;
+extern char _binary_trk6_ogg_start;
+
+static char *tracks[] = {&_binary_trk1_ogg_start,
+			 &_binary_trk2_ogg_start,
+			 &_binary_trk3_ogg_start,
+			 &_binary_trk4_ogg_start,
+			 &_binary_trk5_ogg_start,
+			 &_binary_trk6_ogg_start};
 
 static char *tracknames[] = {"Interrupt 0x7f",
 			 "The Internet is an Apt Motherfucker",
@@ -46,12 +45,20 @@ static char *tracknames[] = {"Interrupt 0x7f",
 			 "Interrupt 0xbb",
 			 "Approximating the Circumference of the Earth"};
 
-static unsigned long tracklens[] = {NETCAT_CPI_TRK1_LEN,
-				    NETCAT_CPI_TRK2_LEN,
-				    NETCAT_CPI_TRK3_LEN,
-				    NETCAT_CPI_TRK4_LEN,
-				    NETCAT_CPI_TRK5_LEN,
-				    NETCAT_CPI_TRK6_LEN};
+extern char _binary_trk1_ogg_size;
+extern char _binary_trk2_ogg_size;
+extern char _binary_trk3_ogg_size;
+extern char _binary_trk4_ogg_size;
+extern char _binary_trk5_ogg_size;
+extern char _binary_trk6_ogg_size;
+
+#define CASTUL(_x) ((unsigned long)&(_x))
+static unsigned long tracklens[] = {CASTUL(_binary_trk1_ogg_size),
+				    CASTUL(_binary_trk2_ogg_size),
+				    CASTUL(_binary_trk3_ogg_size),
+				    CASTUL(_binary_trk4_ogg_size),
+				    CASTUL(_binary_trk5_ogg_size),
+				    CASTUL(_binary_trk6_ogg_size)};
 
 
 static int device_open(struct inode *inode, struct file *file)
