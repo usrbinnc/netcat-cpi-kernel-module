@@ -95,7 +95,7 @@ static ssize_t device_read(struct file *file,
 	if (netcat->msg - tracks[current_track] >= tracklens[current_track]) {
 		/* End of Track.  Skip to next track, or finish if it's the last track */
 		current_track++;
-		if (current_track >= sizeof(tracks)/sizeof(tracks[0]))
+		if (current_track >= ARRAY_SIZE(tracks))
 			current_track = 0;
 		pr_info("Now playing track %d - %s\n",
 			current_track + 1, tracknames[current_track]);
