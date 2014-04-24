@@ -17,12 +17,12 @@
  *  |__|  \___  >___|  (____  /\___  >__|
  *            \/     \/     \/     \/
  */
-#include <trk4.h>
-#include <trk5.h>
-#include <trk6.h>
-#include <trk1.h>
-#include <trk2.h>
-#include <trk3.h>
+#include "tracks/trk4.h"
+#include "tracks/trk5.h"
+#include "tracks/trk6.h"
+#include "tracks/trk1.h"
+#include "tracks/trk2.h"
+#include "tracks/trk3.h"
 
 #define DEVICE_NAME "netcat"	/* Dev name as it appears in /proc/devices   */
 
