@@ -7,6 +7,7 @@
 #include <linux/miscdevice.h>
 #include <linux/slab.h>
 
+#include "netcat.h"
 
 #define DEVICE_NAME "netcat"	/* Dev name as it appears in /proc/devices   */
 
@@ -16,41 +17,19 @@ struct netcat {
 	int	current_track;
 };
 
-extern char netcat_cpi_trk1[];
-extern char netcat_cpi_trk2[];
-extern char netcat_cpi_trk3[];
-extern char netcat_cpi_trk4[];
-extern char netcat_cpi_trk5[];
-extern char netcat_cpi_trk6[];
+extern struct netcat_track netcat_cpi_trk1;
+extern struct netcat_track netcat_cpi_trk2;
+extern struct netcat_track netcat_cpi_trk3;
+extern struct netcat_track netcat_cpi_trk4;
+extern struct netcat_track netcat_cpi_trk5;
+extern struct netcat_track netcat_cpi_trk6;
 
-extern unsigned long netcat_cpi_trk1_len;
-extern unsigned long netcat_cpi_trk2_len;
-extern unsigned long netcat_cpi_trk3_len;
-extern unsigned long netcat_cpi_trk4_len;
-extern unsigned long netcat_cpi_trk5_len;
-extern unsigned long netcat_cpi_trk6_len;
-
-static char *tracks[] = {netcat_cpi_trk1,
-			 netcat_cpi_trk2,
-			 netcat_cpi_trk3,
-			 netcat_cpi_trk4,
-			 netcat_cpi_trk5,
-			 netcat_cpi_trk6};
-
-static char *tracknames[] = {"Interrupt 0x7f",
-			 "The Internet is an Apt Motherfucker",
-			 "Interrupt 0x0d",
-			 "netcat",
-			 "Interrupt 0xbb",
-			 "Approximating the Circumference of the Earth"};
-
-static unsigned long *tracklens[] = {&netcat_cpi_trk1_len,
-				     &netcat_cpi_trk2_len,
-				     &netcat_cpi_trk3_len,
-				     &netcat_cpi_trk4_len,
-				     &netcat_cpi_trk5_len,
-				     &netcat_cpi_trk6_len};
-
+static struct netcat_track *tracks[] = {&netcat_cpi_trk1,
+					&netcat_cpi_trk2,
+					&netcat_cpi_trk3,
+					&netcat_cpi_trk4,
+					&netcat_cpi_trk5,
+					&netcat_cpi_trk6};
 
 static int device_open(struct inode *inode, struct file *file)
 {
@@ -61,7 +40,7 @@ static int device_open(struct inode *inode, struct file *file)
 		return -ENOMEM;
 
 	netcat->first_time = true;
-	netcat->msg = tracks[0];	/* track 1 */
+	netcat->msg = tracks[0]->data;	/* track 1 */
 	file->private_data = netcat;
 	return 0;
 }
@@ -86,24 +65,25 @@ static ssize_t device_read(struct file *file,
 
 	if (netcat->first_time == true) {
 		pr_info("Now playing track %d - %s\n",
-			current_track + 1, tracknames[current_track]);
+			current_track + 1, tracks[current_track]->name);
 		netcat->first_time = false;
 	}
 
-	if (netcat->msg - tracks[current_track] >= *tracklens[current_track]) {
+	if (netcat->msg - tracks[current_track]->data >=
+		tracks[current_track]->len) {
 		/* End of Track.  Skip to next track, or finish if it's track 6 */
 		current_track++;
 		if (current_track >= 6)
 			current_track = 0;
 		pr_info("Now playing track %d - %s\n",
-			current_track + 1, tracknames[current_track]);
-		netcat->msg = tracks[current_track];
+			current_track + 1, tracks[current_track]->name);
+		netcat->msg = tracks[current_track]->data;
 		netcat->current_track = current_track;
 	}
 
 	while (length &&
-		(netcat->msg - tracks[current_track]) <
-		 *tracklens[current_track]) {
+		(netcat->msg - tracks[current_track]->data) <
+		 tracks[current_track]->len) {
 		put_user(*(netcat->msg++), buffer++);
 
 		length--;

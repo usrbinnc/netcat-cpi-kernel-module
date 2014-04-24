@@ -1,7 +1,9 @@
+#include "netcat.h"
 #define NETCAT_CPI_TRK1_LEN 624344
-char netcat_cpi_trk1[] = {
-
+struct netcat_track netcat_cpi_trk1 = {
+	.name = "Interrupt 0x7f",
+	.len  = NETCAT_CPI_TRK1_LEN,
+	.data = {
 #include "trk1data.h"
-
+	}
 };
-unsigned long netcat_cpi_trk1_len = NETCAT_CPI_TRK1_LEN;
