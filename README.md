@@ -40,7 +40,7 @@ Other people report:
 * Intrepid explorer @jfilip [feels good about his 64-bit Fedora 20 install](https://gist.github.com/jfilip/408ee178a4379bf06c45)
 * @silviuvulcan Reports that we're up and running on slackware64-current
 * @alinefr did make a [howto](https://github.com/usrbinnc/netcat-cpi-kernel-module/wiki/Gentoo-Linux-HOWTO) explaining how she is enjoying netcat in her Gentoo Linux.
-
+* @pah got it running after increasing the Vmalloc limits to `vmalloc=192M` on a 32-bit i686 Debian machine (3.13-1-686-pae).
 
 First, install some dependencies:
 
@@ -81,6 +81,7 @@ You should see output like the following from `dmesg`:
 [ 2606.528153] [netcat]: 'ogg123 - < /dev/netcat' to play.
 ```
 
+
 Finally, put on some headphones, and run:
 
 ```
@@ -94,6 +95,29 @@ Track information will show up in the output of `dmesg`:
 ```
 
 If you've read this far, god help us all.
+
+Troubleshooting
+---------------
+
+### ERROR: could not insert module netcat.ko: Cannot allocate memory
+
+Loading the module may fail due to kernel memory allocation limits:
+```
+insmod: ERROR: could not insert module netcat.ko: Cannot allocate memory
+```
+also indicated by the errors like the following in `dmesg`:
+```
+[195207.149213] vmap allocation for size 37806080 failed: use vmalloc=<size> to increase size.
+[195207.149216] vmalloc: allocation failure: 37798136 bytes
+[195207.149217] insmod: page allocation failure: order:0, mode:0xd2
+```
+This can happen especially on 32-bit kernels.  The Vmalloc limit can be
+increased by passing `vmalloc=<size>` to your kernel command-line
+(typically 128Mb on 32-bit kernels, increasing it to `vmalloc=192M`
+should be sufficient).  Some information how to overcome this problem
+can be found in the
+[MythTV wiki](http://www.mythtv.org/wiki/Common_Problem:_vmalloc_too_small#The_Solution).
+
 
 People insane enough to contribute (thanks!!)
 ---------
