@@ -127,3 +127,4 @@ People insane enough to contribute (thanks!!)
 * @jmtd simplified the command to play audio by removing the extra instance of cat. Thanks!
 * @gregkh for making our module coherent with standard Linux style and cleaning up some other loose ends.
 * @silviuvulcan for testing with vlc and finding that we run and build on slackware64-current. Thanks!
+* @pah dropped some knowledge for anyone struggling in the streets with 32-bit kernels and vmalloc limits
