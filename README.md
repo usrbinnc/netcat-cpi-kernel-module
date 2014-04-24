@@ -58,12 +58,12 @@ Next, build the module by running:
 make
 ```
 
-Building will take a long time.  Hang with it.  Building also requires several gigabytes of memory.  We're not totally sure why, but we think it is because because the compiler is making lots of copies of several large, static arrays that contain track data.
+Building will take a long time.  Hang with it.  Building also requires several gigabytes of memory.  We're not totally sure why, but we think it is because the compiler is making lots of copies of several large, static arrays that contain track data.
 
 Listening
 ---------
 
-After you build, run you need to load the module and see if it is working, so you can run:
+After you build, you need to load the module and see if it is working, so you can run:
 
 ```
 sudo insmod netcat.ko
