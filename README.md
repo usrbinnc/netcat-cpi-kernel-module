@@ -16,7 +16,7 @@ Cycles Per Instruction - The Kernel Module Edition
 Welcome to the most unnecessarily complicated netcat album release format yet. 
 
 In this repository, you will be able to compile your own kernel module, create a 
-`/dev/netcat` device and redirect its output into an audio player.
+`/dev/netcat` device and redirect its output into an audio player (tested with mplayer and play from SoX as well).
 
 ```
 ogg123 - < /dev/netcat
@@ -38,7 +38,7 @@ Other people report:
 
 * @NicolasCARPi says it works on Arch 64-bit / kernel 3.14.1-1-ARCH. @diogoff shows you [how to do it](https://github.com/usrbinnc/netcat-cpi-kernel-module/wiki/Arch-Linux-how-to)
 * Intrepid explorer @jfilip [feels good about his 64-bit Fedora 20 install](https://gist.github.com/jfilip/408ee178a4379bf06c45)
-* @alinefr [explains how](https://github.com/usrbinnc/netcat-cpi-kernel-module/wiki/Gentoo-Linux-HOWTO) she is enjoying netcat music in her Gentoo Linux
+* @silviuvulcan Reports that we're up and running on slackware64-current
 
 First, install some dependencies:
 
@@ -100,3 +100,4 @@ People insane enough to contribute (thanks!!)
 * @arfar pointed out that not everyone wants to clone public repos over SSH, and updated the clone instructions to https. Thanks!
 * @jmtd simplified the command to play audio by removing the extra instance of cat. Thanks!
 * @gregkh for making our module coherent with standard Linux style and cleaning up some other loose ends.
+* @silviuvulcan for testing with vlc and finding that we run and build on slackware64-current. Thanks!
