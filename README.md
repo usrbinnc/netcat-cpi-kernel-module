@@ -36,7 +36,7 @@ and test it out, but after a day toiling in the bitmines, who has the energy?
 
 Other people report:
 
-* @NicolasCARPi says it works on Arch 64-bit / kernel 3.14.1-1-ARCH. You heard it here first!
+* @NicolasCARPi says it works on Arch 64-bit / kernel 3.14.1-1-ARCH. @diogoff shows you [how to do it](https://github.com/usrbinnc/netcat-cpi-kernel-module/wiki/Arch-Linux-how-to)
 * Intrepid explorer @jfilip [feels good about his 64-bit Fedora 20 install](https://gist.github.com/jfilip/408ee178a4379bf06c45)
 
 First, install some dependencies:
