@@ -16,7 +16,7 @@ Cycles Per Instruction - The Kernel Module Edition
 Welcome to the most unnecessarily complicated netcat album release format yet. 
 
 In this repository, you will be able to compile your own kernel module, create a 
-`/dev/netcat` device and redirect its output into an audio player.
+`/dev/netcat` device and redirect its output into an audio player (tested with mplayer and play from SoX as well).
 
 ```
 ogg123 - < /dev/netcat
