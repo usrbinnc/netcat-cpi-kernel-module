@@ -42,6 +42,7 @@ Other people report:
 * @alinefr did make a [howto](https://github.com/usrbinnc/netcat-cpi-kernel-module/wiki/Gentoo-Linux-HOWTO) explaining how she is enjoying netcat in her Gentoo Linux. She also [explained how](https://github.com/usrbinnc/netcat-cpi-kernel-module/wiki/Simple-http-mp3-streaming) she did a http streaming from /dev/netcat to listen from [MPD](http://www.musicpd.org) and possibily from any open source audio player.
 * @pah got it running after increasing the Vmalloc limits to `vmalloc=192M` on a 32-bit i686 Debian machine (3.13-1-686-pae).
 * @g0hl1n reports that it works on Debian 7.4 "wheezy" / Linux 3.2.0-4-amd64 #1 SMP Debian 3.2.54-2 x86_64 GNU/Linux
+* @ciderpunx can compile and run it on Debian 8.0 "Jessie" / Linux 3.12-1-amd64 #1 SMP Debian 3.12.9-1 (2014-02-01) x86_64 GNU/Linux
 
 First, install some dependencies:
 
