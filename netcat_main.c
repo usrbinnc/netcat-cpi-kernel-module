@@ -9,13 +9,20 @@
 
 #include "netcat.h"
 
-#define DEVICE_NAME "netcat"	/* Dev name as it appears in /proc/devices   */
-
 struct netcat {
 	char	*msg;
 	bool	first_time;
 	int	current_track;
 };
+
+#define DEVICE_NAME "netcat"	/* Dev name as it appears in /proc/devices   */
+
+extern struct netcat_track netcat_cpi_trk1;
+extern struct netcat_track netcat_cpi_trk2;
+extern struct netcat_track netcat_cpi_trk3;
+extern struct netcat_track netcat_cpi_trk4;
+extern struct netcat_track netcat_cpi_trk5;
+extern struct netcat_track netcat_cpi_trk6;
 
 static struct netcat_track *tracks[] = {&netcat_cpi_trk1,
 					&netcat_cpi_trk2,
