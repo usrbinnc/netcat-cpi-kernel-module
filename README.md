@@ -43,6 +43,7 @@ Other people report:
 * @pah got it running after increasing the Vmalloc limits to `vmalloc=192M` on a 32-bit i686 Debian machine (3.13-1-686-pae).
 * @g0hl1n reports that it works on Debian 7.4 "wheezy" / Linux 3.2.0-4-amd64 #1 SMP Debian 3.2.54-2 x86_64 GNU/Linux
 * @ciderpunx can compile and run it on Debian 8.0 "Jessie" / Linux 3.12-1-amd64 #1 SMP Debian 3.12.9-1 (2014-02-01) x86_64 GNU/Linux
+* @f00stx slung some bits all the way from Brisbane, Australia to bring you a FreeBSD version (which he compiled on a G5 Mac, no less!) [Check it out here.](https://github.com/f00stx/netcat-cpi-kernel-module-bsd/tree/bsd)
 
 First, install some dependencies:
 
