@@ -4,7 +4,7 @@
 struct netcat_track {
 	char *name;
 	unsigned long len;
-	char data[];
+	const char *data;
 };
 
 #endif /* NETCAT_H_INCLUDED_ */

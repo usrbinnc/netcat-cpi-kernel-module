@@ -1,9 +1,13 @@
+#include <linux/bug.h>
+#include <linux/kernel.h>
 #include "../netcat.h"
-#define NETCAT_CPI_TRK2_LEN 11659615
+
+static const char trk2_data[] = {
+	#include "trk2data.h"
+};
+
 struct netcat_track netcat_cpi_trk2 = {
 	.name = "The Internet is an Apt Motherfucker",
-	.len  = NETCAT_CPI_TRK2_LEN,
-	.data = {
-#include "trk2data.h"
-	}
+	.len  = ARRAY_SIZE(trk2_data),
+	.data = trk2_data
 };
