@@ -151,4 +151,4 @@ People insane enough to contribute (thanks!!)
 * @gregkh for making our module coherent with standard Linux style and cleaning up some other loose ends.
 * @silviuvulcan for testing with vlc and finding that we run and build on slackware64-current. Thanks!
 * @pah dropped some knowledge for anyone struggling in the streets with 32-bit kernels and vmalloc limits
-* Eitan Adler ported the module to FreeBSD -- more improvements including mmap() support and concurrent readers coming soon
+* @grimreaper (Eitan Adler) ported the module to FreeBSD -- more improvements including mmap() support and concurrent readers coming soon
