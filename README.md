@@ -50,7 +50,7 @@ For FreeBSD:
 Just run:
 ```
 
-make -f makefile.freebsd
+make -f Makefile.freebsd
 
 ```
 
@@ -72,7 +72,7 @@ cd netcat-cpi-kernel-module
 Next, build the module by running:
 
 ```
-make
+make -f Makefile.linux
 ```
 
 Building will take a long time.  Hang with it.  Building also requires several gigabytes of memory.  We're not totally sure why, but we think it is because the compiler is making lots of copies of several large, static arrays that contain track data.

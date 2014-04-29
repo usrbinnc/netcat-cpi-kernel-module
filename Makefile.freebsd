@@ -1,4 +1,12 @@
 KMOD=	netcat
-SRCS=	netcat-freebsd.c
+SRCS=	netcat-freebsd.c \
+	trk1.c\
+	trk2.c \
+	trk3.c \
+	trk4.c \
+	trk5.c \
+	trk6.c
+
+.PATH:	./tracks/
 
 .include <bsd.kmod.mk>

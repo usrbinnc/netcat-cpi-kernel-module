@@ -6,12 +6,7 @@
 #include <sys/types.h>
 #include <sys/uio.h>
 
-#include "tracks/trk1.h"
-#include "tracks/trk2.h"
-#include "tracks/trk3.h"
-#include "tracks/trk4.h"
-#include "tracks/trk5.h"
-#include "tracks/trk6.h"
+#include "netcat.h"
 
 /* Function prototypes */
 static d_open_t      netcat_open;
@@ -27,29 +22,14 @@ static struct cdevsw netcat_cdevsw = {
 	.d_flags = D_DISK
 };
 
-static char *tracks[] = {netcat_cpi_trk1,
-                         netcat_cpi_trk2,
-                         netcat_cpi_trk3,
-                         netcat_cpi_trk4,
-                         netcat_cpi_trk5,
-                         netcat_cpi_trk6};
-
-static char *tracknames[] = {"Interrupt 0x7f",
-			 "The Internet is an Apt Motherfucker",
-			 "Interrupt 0x0d",
-			 "netcat",
-			 "Interrupt 0xbb",
-			 "Approximating the Circumference of the Earth"};
-
-static unsigned long tracklens[] = {NETCAT_CPI_TRK1_LEN,
-				    NETCAT_CPI_TRK2_LEN,
-				    NETCAT_CPI_TRK3_LEN,
-				    NETCAT_CPI_TRK4_LEN,
-				    NETCAT_CPI_TRK5_LEN,
-				    NETCAT_CPI_TRK6_LEN};
+static struct netcat_track *tracks[] = {&netcat_cpi_trk1,
+					&netcat_cpi_trk2,
+					&netcat_cpi_trk3,
+					&netcat_cpi_trk4,
+					&netcat_cpi_trk5,
+					&netcat_cpi_trk6};
 
 static struct {
-	char	*msg;
 	int	current_track;
 	size_t	bytes;
 	bool	first;
@@ -62,10 +42,10 @@ static int netcat_loader(struct module *module, int event, void *arg) {
 
 	switch (event) {
 		case MOD_LOAD:
-			uprintf("netcat - Cycles Per Instruction - Kernel Module Edition - 2014\n");
-			uprintf("netcat is Brandon Lucia, Andrew Olmstead, and David Balatero\n");
-			uprintf("On the web at http://netcat.co\n");
-			uprintf("'ogg123 - < /dev/netcat' to play.\n");
+			printf("netcat - Cycles Per Instruction - Kernel Module Edition - 2014\n");
+			printf("netcat is Brandon Lucia, Andrew Olmstead, and David Balatero\n");
+			printf("On the web at http://netcat.co\n");
+			printf("'ogg123 - < /dev/netcat' to play.\n");
 			e = make_dev_p(MAKEDEV_CHECKNAME | MAKEDEV_WAITOK,
 				&netcat_dev,
 				&netcat_cdevsw,
@@ -95,7 +75,6 @@ static int netcat_open(struct cdev *dev __unused, int oflags __unused, int devty
 	int error = 0;
 
 	netcatdata.current_track = 0;
-	netcatdata.msg = tracks[netcatdata.current_track];        /* track 1 */
 	netcatdata.bytes = 0;
 	netcatdata.first = true;
 
@@ -119,21 +98,21 @@ netcat_read(struct cdev *dev __unused, struct uio *uio, int ioflag __unused)
 
 	while (totalbytesleft > 0) {
 		if (netcatdata.first) {
-			uprintf("Now playing %s\n", tracknames[netcatdata.current_track]);
+			printf("Now playing %s\n", tracks[netcatdata.current_track]->name);
 			netcatdata.first = false;
 		}
 
 		int amt = MIN(totalbytesleft,
-			tracklens[netcatdata.current_track] - netcatdata.bytes);
+			tracks[netcatdata.current_track]->len - netcatdata.bytes);
 
-		error = uiomove(tracks[netcatdata.current_track] +
+		error = uiomove(tracks[netcatdata.current_track]->data +
 			netcatdata.bytes, amt, uio);
 		if (error != 0)
 			return (error);
 
 		netcatdata.bytes += amt;
 		totalbytesleft -= amt;
-		if (netcatdata.bytes == tracklens[netcatdata.current_track]) {
+		if (netcatdata.bytes == tracks[netcatdata.current_track]->len) {
 			netcatdata.bytes = 0;
 			netcatdata.first = true;
 			netcatdata.current_track = (netcatdata.current_track + 1) % nitems(tracks);
