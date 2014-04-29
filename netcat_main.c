@@ -10,9 +10,9 @@
 #include "netcat.h"
 
 struct netcat {
-	char	*msg;
-	bool	first_time;
-	int	current_track;
+	const char	*msg;
+	bool		first_time;
+	int		current_track;
 };
 
 #define DEVICE_NAME "netcat"	/* Dev name as it appears in /proc/devices   */

@@ -1,9 +1,13 @@
+#include <linux/bug.h>
+#include <linux/kernel.h>
 #include "../netcat.h"
-#define NETCAT_CPI_TRK5_LEN 858054
+
+static const char trk5_data[] = {
+	#include "trk5data.h"
+};
+
 struct netcat_track netcat_cpi_trk5 = {
 	.name = "Interrupt 0xbb",
-	.len  = NETCAT_CPI_TRK5_LEN,
-	.data = {
-#include "trk5data.h"
-	}
+	.len  = ARRAY_SIZE(trk5_data),
+	.data = trk5_data
 };
