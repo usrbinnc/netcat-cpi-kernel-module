@@ -6,6 +6,7 @@
 #include <linux/uaccess.h>
 #include <linux/miscdevice.h>
 #include <linux/slab.h>
+#include <linux/init.h>
 
 #include "netcat.h"
 
@@ -115,7 +116,7 @@ static struct miscdevice netcat_dev = {
 	.mode = S_IRUGO,
 };
 
-static int netcat_init(void)
+static int __init netcat_init(void)
 {
 	int ret;
 
@@ -132,7 +133,7 @@ static int netcat_init(void)
 	return 0;
 }
 
-static void netcat_exit(void)
+static void __exit netcat_exit(void)
 {
 	misc_deregister(&netcat_dev);
 }
