@@ -1,0 +1,4 @@
+KMOD=	netcat
+SRCS=	netcat-freebsd.c
+
+.include <bsd.kmod.mk>

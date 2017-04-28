@@ -46,6 +46,17 @@ Other people report:
 * @f00stx slung some bits all the way from Brisbane, Australia to bring you a FreeBSD version (which he compiled on a G5 Mac, no less!) [Check it out here.](https://github.com/f00stx/netcat-cpi-kernel-module-bsd/tree/bsd)
 * @dyfer had the foresight to save up all his turbo boost, so he could dunk a Linux Mint 16 √ report from half-court
 
+For FreeBSD:
+
+Just run:
+```
+
+make -f makefile.freebsd
+
+```
+
+For Linux:
+
 First, install some dependencies:
 
 ```
@@ -72,6 +83,15 @@ Listening
 
 After you build, you need to load the module and see if it is working, so you can run:
 
+For FreeBSD:
+
+```
+kldload ./netcat.ko
+dmesg
+```
+
+
+For Linux:
 ```
 sudo insmod netcat.ko
 dmesg
@@ -132,3 +152,4 @@ People insane enough to contribute (thanks!!)
 * @gregkh for making our module coherent with standard Linux style and cleaning up some other loose ends.
 * @silviuvulcan for testing with vlc and finding that we run and build on slackware64-current. Thanks!
 * @pah dropped some knowledge for anyone struggling in the streets with 32-bit kernels and vmalloc limits
+* Eitan Adler ported the module to FreeBSD -- more improvements including mmap() support and concurrent readers coming soon
